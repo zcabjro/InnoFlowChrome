@@ -1,7 +1,7 @@
 const domain = "https://innoflow.herokuapp.com/"
 	, api = domain + "api/"
 	, searchRoute = api + "users/search"
-	, usersWebRoute = domain + "users/";
+	, usersWebRoute = domain + "#/users/";
 
 document.addEventListener('DOMContentLoaded', addListeners, false);
 
