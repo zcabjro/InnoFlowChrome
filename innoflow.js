@@ -13,15 +13,17 @@ function addListeners() {
 
 function search(e) {
 	let val = e.target.value;
-	let xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200) {
-			let results = JSON.parse(this.responseText);
-			populateResults(results);
-		}
-  };
-  xhr.open("GET", searchRoute + "?string=" + val, true);
-  xhr.send();
+	if (val && val.length > 1) {
+		let xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200) {
+				let results = JSON.parse(this.responseText);
+				populateResults(results);
+			}
+		};
+		xhr.open("GET", searchRoute + "?string=" + val, true);
+		xhr.send();
+	}
 }
 
 function populateResults(results) {
