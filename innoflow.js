@@ -1,6 +1,6 @@
 const domain = "https://innoflow.herokuapp.com/"
 	, api = domain + "api/"
-	, searchRoute = api + "classes/admins/search"
+	, searchRoute = api + "users/search"
 	, usersWebRoute = domain + "users/";
 
 document.addEventListener('DOMContentLoaded', addListeners, false);
@@ -11,25 +11,27 @@ function addListeners() {
 	input.addEventListener("input", debouncedSearch);
 }
 
-function search(val) {
+function search(e) {
+	let val = e.target.value;
 	let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200 && this.responseType === "json") {
-			populateResults(this.response);
+		if (this.readyState === 4 && this.status === 200) {
+			let results = JSON.parse(this.responseText);
+			populateResults(results);
 		}
   };
-  xhr.open("GET", searchRoute, true);
+  xhr.open("GET", searchRoute + "?string=" + val, true);
   xhr.send();
 }
 
 function populateResults(results) {
 	let list = document.getElementById("results");
 	let i = 0;
-	for (; i < results.length && i < list.rows.length; i++) {
+	for (; i < results.length; i++) {
 		if (i >= list.rows.length) {
 			list.insertRow(i);			
 		}
-		setResult(list.rows[i], results[i].userId, results[i].username);
+		setResult(list.rows[i], results[i].id, results[i].username);
 	}
 	while (list.rows.length > i) {
 		list.deleteRow(i);
